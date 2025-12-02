@@ -114,4 +114,36 @@ This project follows a complete database engineering workflow:
 
 # 🗂 Relational Schema
 
-<img width="1024" height="1024" alt="Image" src="https://github.com/user-attachments/assets/b20f98a9-fa04-4a1a-8f5f-c28367378ab1" />
+![Relational Schema](https://github.com/user-attachments/assets/b20f98a9-fa04-4a1a-8f5f-c28367378ab1)
+
+✔ Core Tables
+
+Users
+
+Addresses
+
+Books
+
+Authors
+
+Categories
+
+Listings
+
+Orders
+
+OrderItems
+
+Payments
+
+Shipments
+
+BookReviews
+
+SellerReviews
+
+Conditions
+
+UserActivity
+
+All PKs, FKs, and relationships are represented in the schema diagram
