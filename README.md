@@ -1,113 +1,88 @@
-# 📚 Second-Hand Bookstore Database
-*A complete, production-style SQL Server marketplace database — beautifully structured, professionally documented.*
+<div align="center">
+
+# 📚✨ Second-Hand Bookstore Database
+### *A polished, modern SQL Server marketplace database — now with elegant dividers & subtle color-block sections*
+
+<hr style="width:60%; border:1px solid #d0d0d0"/>
+
+### **EER Diagram**
+<img src="https://github.com/user-attachments/assets/8e5fc16b-62e5-4a50-99bd-ba0e6b84f2d8" width="720"/>
+
+<br/>
+
+### **Relational Schema**
+<img src="https://github.com/user-attachments/assets/b20f98a9-fa04-4a1a-8f5f-c28367378ab1" width="720"/>
+
+<hr style="width:60%; border:1px solid #d0d0d0"/>
+
+</div>
+
 
 ---
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/8e5fc16b-62e5-4a50-99bd-ba0e6b84f2d8" alt="EER Diagram" width="650"/>
-</p>
-<p align="center"><em>Entity-Relationship Diagram (EER)</em></p>
+<div style="background:#f7f9fc; padding:20px; border-radius:10px; border:1px solid #e5e7eb;">
+
+## 🌟 Overview
+This repository contains a **complete, professionally structured SQL Server database** for a second-hand bookstore marketplace.
+
+It now features a **visually enhanced, modern presentation** using:
+- Soft color blocks
+- Clean dividers
+- Clear visual hierarchy
+- Professional typography spacing
+
+Designed to look *beautiful, modern, and engaging* without being over the top.
+
+</div>
 
 ---
 
-## ✨ Overview
-This repository provides a fully implemented **Second-Hand Bookstore Marketplace Database**, featuring a modern design, clean structure, and real-world business logic. It is ideal for:
-- Academic and teaching scenarios
-- Software engineering and backend development practice
-- Marketplace prototyping
-- Demonstrations of SQL Server capabilities
+<div style="background:#fcfafa; padding:20px; border-radius:10px; border:1px solid #eee;">
+
+## 🧱 Core Architecture
+### **🔹 Relational Schema (Normalized & Clean)**
+- Users, Sellers, Buyers
+- Books, Authors, Categories
+- Listings with conditions & quantity
+- Orders & OrderItems
+- Addresses
+- Reviews (Books & Sellers)
+
+### **🔹 Business Logic Layer**
+- Stored procedures (listing, approval, order creation)
+- Triggers (stock management)
+- Views (active listings)
+- Indexes (search + performance)
+
+### **🔹 XML Import/Export**
+Supports both ingestion and structured data output.
+
+</div>
 
 ---
 
-## 🧱 Core Components
-### **1. Schema Architecture**
-A well-normalized relational schema including:
-- **Users**, **Addresses**, **Books**, **Listings**, **Orders**, **OrderItems**
-- Review systems for both books and sellers
-- Complete referential integrity (PKs, FKs, cascades)
+<div style="background:#f6fbff; padding:20px; border-radius:10px; border:1px solid #dce9f5;">
 
-### **2. Data Initialization**
-Rich sample datasets enabling:
-- Immediate testing
-- Demo flows (search → listing → order → reviews)
+## 🎨 Design Philosophy
+This design follows a modern, elegant documentation style based on:
 
-### **3. Business Logic Layer**
-Includes professionally structured T-SQL features:
-- **Stored Procedures** (listing creation, approval, orders)
-- **Triggers** (stock reduction & SoldOut automation)
-- **Views** for simplified querying
-- **Indexes** for optimized performance
+### **1️⃣ Visual Calmness** — soft color palettes
+### **2️⃣ Structural Clarity** — sections divided with spacing & borders
+### **3️⃣ Professional Tone** — appropriate for portfolios & enterprise demonstrations
+### **4️⃣ Engaging Layout** — inviting, readable, and balanced
+### **5️⃣ Accuracy** — no compromise on technical detail
 
-### **4. XML Integration**
-- Import Books from XML
-- Export Orders + Items to XML
+</div>
 
 ---
 
-## 🧩 Relational Schema
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/b20f98a9-fa04-4a1a-8f5f-c28367378ab1" alt="Relational Schema" width="650"/>
-</p>
-<p align="center"><em>Logical Relational Schema</em></p>
-
----
-
-## 🔍 Key Features
-### **Marketplace-Ready Design**
-- Multi-seller listings
-- Variable pricing & book conditions
-- Accurate stock tracking
-
-### **Robust Order Workflow**
-- Transaction-protected order creation
-- Linked OrderItems detail
-- Automatic SoldOut state handling
-
-### **Performance and Scalability**
-- Tailored indexes for real-world search patterns
-- Modular stored procedures
-- Efficient view-based querying
-
-### **Extensibility by Design**
-Future features can be added cleanly, such as:
-- Wishlists
-- Shopping cart
-- Messaging between buyers and sellers
-- Payment flow integration
-
----
-
-## 🚀 Getting Started
-### **1. Create the Database**
-Run the core schema scripts to build tables and constraints.
-
-### **2. Load Sample Data**
-Execute:
-- `DATA.sql`
-- `DATA1.sql`
-
-### **3. Add Logic Layer**
-Install sequentially:
-1. Views
-2. Stored Procedures
-3. Triggers
-4. Indexes
-
-### **4. Execute Sample Queries**
-Test end-to-end flows:
-- Buyer sales history
-- Seller performance
-- Title-based listing search
-- Best-selling books
-
----
+<div style="background:#fbfdf7; padding:20px; border-radius:10px; border:1px solid #e4eed2;">
 
 ## 📁 Repository Structure
 ```
 / ─ Core Tables.sql
   ─ DATABASE SecondHandBookstore.sql
-  ─ DATA.sql
-  ─ DATA1.sql
+  ─ DATA.sql / DATA1.sql
   ─ Example Views.sql
   ─ Stored Procedure Add Listing.sql
   ─ Stored Procedure Approve Listing.sql
@@ -122,29 +97,77 @@ Test end-to-end flows:
   ─ Indexes for Performance.sql
 ```
 
+</div>
+
 ---
+
+<div style="background:#fdf8ff; padding:20px; border-radius:10px; border:1px solid #eadcf5;">
+
+## 🚀 Getting Started
+### **1. Build the Database**
+Run the core schema scripts.
+
+### **2. Load Sample Data**
+Execute:
+- `DATA.sql`
+- `DATA1.sql`
+
+### **3. Install Logic Layer**
+Sequential order:
+1. Views
+2. Stored Procedures
+3. Triggers
+4. Indexes
+
+### **4. Begin Exploring**
+Try the example queries for:
+- Active listings
+- Buyer & seller sales history
+- Best sellers
+- XML import/export
+
+</div>
+
+---
+
+<div style="background:#f7f7f7; padding:20px; border-radius:10px; border:1px solid #e1e1e1;">
+
+## 💡 Why This Project Stands Out
+- Clean, modern, elegant documentation
+- Real-world marketplace workflow
+- Full technical depth without overwhelming the reader
+- Aesthetically pleasing and portfolio-ready
+- Great foundation for extending into a full backend system
+
+</div>
+
+---
+
+<div style="background:#f2faff; padding:20px; border-radius:10px; border:1px solid #d0e7f7;">
 
 ## 🛠 Technology Stack
-- **Microsoft SQL Server (T-SQL)** — Primary implementation
+- **Microsoft SQL Server (T-SQL)** — Primary engine
 
-**Can be adapted to:**
+Can also be ported to:
 - PostgreSQL
-- MySQL
-- MariaDB
+- MySQL/MariaDB
 - SQLite
 
-(Ask if you'd like an automatically generated port!)
+</div>
 
 ---
 
-## 🧾 Summary
-This project combines **technical rigor**, **clean design**, and **practical marketplace logic** to form a polished, extensible SQL Server application. Its thoughtful architecture and well-written scripts make it suited for real use cases, education, or portfolio improvement.
+<div style="background:#fff8f2; padding:20px; border-radius:10px; border:1px solid #f0dfcd;">
 
-If you’d like further enhancements, I can add:
-- 🌟 GitHub badges
-- 🗺 A Mermaid-style ERD rendered directly in markdown
-- 🧪 Testing workflows (sample transactions)
-- 📝 Documentation for API integration
-- 🔧 Additional procedures (cart system, wishlist system, admin tools)
+## 🎯 Final Thoughts
+This version blends **beauty, readability, and professionalism** using subtle color blocks and section dividers.
 
-Just tell me and I’ll upgrade the design even further! 🚀
+If you'd like, I can generate:
+- A dark-themed version
+- A glassmorphism-inspired version
+- A minimalist corporate version
+- A GitHub-optimized version
+
+Just say the word — I’ll make it stunning. 🚀
+
+</div>
