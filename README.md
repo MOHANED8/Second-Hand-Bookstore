@@ -110,6 +110,4 @@ This project follows a complete database engineering workflow:
 > 📌 **Insert your Enhanced ER Diagram Image here**  
 Upload your image to GitHub and replace the link below:
 
-```html
-<img width="1536" height="1024" alt="EER Diagram" 
-src="https://github.com/user-attachments/assets/8e5fc16b-62e5-4a50-99bd-ba0e6b84f2d8" />
+![EER Diagram](https://github.com/user-attachments/assets/8e5fc16b-62e5-4a50-99bd-ba0e6b84f2d8)
