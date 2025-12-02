@@ -109,3 +109,9 @@ This project follows a complete database engineering workflow:
 
 
 ![EER Diagram](https://github.com/user-attachments/assets/8e5fc16b-62e5-4a50-99bd-ba0e6b84f2d8)
+
+
+
+# 🗂 Relational Schema
+
+<img width="1024" height="1024" alt="Image" src="https://github.com/user-attachments/assets/b20f98a9-fa04-4a1a-8f5f-c28367378ab1" />
