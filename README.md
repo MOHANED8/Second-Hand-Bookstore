@@ -1,4 +1,4 @@
-# SecondHandBookstore Database Documentation
+# SecondHandBookstore Database 
 
 ## Overview
 This is a comprehensive SQL Server database system for managing a second-hand bookstore marketplace where users can buy and sell used books.
