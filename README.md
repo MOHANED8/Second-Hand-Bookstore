@@ -137,7 +137,7 @@ Test end-to-end flows:
 
 ---
 
-## 🧾 Professional Summary
+## 🧾 Summary
 This project combines **technical rigor**, **clean design**, and **practical marketplace logic** to form a polished, extensible SQL Server application. Its thoughtful architecture and well-written scripts make it suited for real use cases, education, or portfolio improvement.
 
 If you’d like further enhancements, I can add:
