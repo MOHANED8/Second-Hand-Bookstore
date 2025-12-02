@@ -147,3 +147,44 @@ Conditions
 UserActivity
 
 All PKs, FKs, and relationships are represented in the schema diagram
+
+---
+
+# 🧩 Normalization
+
+The Second-Hand Bookstore Database is fully normalized to **Third Normal Form (3NF)** to ensure data integrity, reduce redundancy, and improve query performance.
+
+### ✔ First Normal Form (1NF)
+- All attributes are atomic  
+- No repeating groups  
+- Multivalued attributes represented through bridge tables:  
+  - `BookAuthors`  
+  - `BookCategories`
+
+### ✔ Second Normal Form (2NF)
+- All non-key attributes in composite-key tables fully depend on the entire primary key  
+- `OrderItems(order_id, listing_id)` contains no partial dependencies
+
+### ✔ Third Normal Form (3NF)
+- No transitive dependencies exist  
+- All non-key attributes depend solely on their table’s primary key  
+- Referential integrity enforced across the database
+
+---
+
+# 🔗 Functional Dependencies
+
+Below is a summarized list of the key Functional Dependencies (FDs) used in normalization:
+FD1: user_id → username, email, password_hash, role
+FD2: book_id → title, isbn, publication_year
+FD3: isbn → book_id
+FD4: listing_id → book_id, seller_id, price, condition_id
+FD5: order_id → buyer_id, order_date, status, total_amount
+FD6: (order_id, listing_id) → quantity, unit_price
+FD7: payment_id → order_id, amount, payment_method
+FD8: shipment_id → order_id, tracking_number, carrier
+FD9: review_id → rating, comment
+
+
+
+
