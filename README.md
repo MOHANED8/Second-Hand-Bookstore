@@ -1,290 +1,286 @@
-# 📚 Second-Hand Bookstore Database Management System
+# SecondHandBookstore Database Documentation
 
-<p align="center">
-  <em>A comprehensive SQL Server database for managing used book marketplace operations</em>
-</p>
+## Overview
+This is a comprehensive SQL Server database system for managing a second-hand bookstore marketplace where users can buy and sell used books.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/SQL%20Server-2016+-CC2927?style=flat-square&logo=microsoft-sql-server" />
-  <img src="https://img.shields.io/badge/Normalization-3NF-success?style=flat-square" />
-  <img src="https://img.shields.io/badge/Records-3300+-blue?style=flat-square" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" />
-</p>
+## Database Schema
 
----
+### Core Entities
 
-## 📋 Overview
+#### Users
+Stores user accounts for both customers and administrators.
+- **Primary Key**: `user_id` (INT IDENTITY)
+- **Key Fields**: `username`, `email`, `password_hash`, `role`
+- **Roles**: 'Customer', 'Admin'
+- **Constraints**: Unique username and email
 
-**SHB-DBMS** is a fully normalized relational database built for online trading of used books. Developed for **CSE5041: Database Design & Development**, this project demonstrates enterprise-level database architecture with complete CRUD operations, transaction management, and NoSQL integration.
+#### Books
+Contains book catalog information.
+- **Primary Key**: `book_id` (INT IDENTITY)
+- **Key Fields**: `title`, `isbn`, `publication_year`, `language`, `edition`
+- **Constraints**: Unique ISBN
 
-**Core Capabilities:** User authentication | Book catalog | Marketplace listings | Order processing | Payment & shipment tracking | Review system | JSON activity logs
+#### Authors
+Stores author information with biographical details.
+- **Primary Key**: `author_id` (INT IDENTITY)
+- **Key Fields**: `name`, `biography`
 
----
+#### Categories
+Hierarchical category structure for book classification.
+- **Primary Key**: `category_id` (INT IDENTITY)
+- **Key Fields**: `name`, `parent_category_id`
+- **Self-referencing**: Supports nested categories
 
-## 🎯 Key Features
+#### Addresses
+User addresses for shipping and billing.
+- **Primary Key**: `address_id` (INT IDENTITY)
+- **Foreign Key**: `user_id` → Users
+- **Types**: 'Shipping', 'Billing'
 
-<table>
-<tr>
-<td width="50%">
+#### Conditions
+Lookup table for book condition ratings.
+- **Primary Key**: `condition_id` (INT IDENTITY)
+- **Values**: 'Like New', 'Very Good', 'Good', 'Acceptable'
 
-**User & Inventory Management**
-- Role-based access (Customer/Admin)
-- Multi-author & multi-category support
-- ISBN validation & uniqueness
-- Book condition grading system
+### Relationship Tables
 
-</td>
-<td width="50%">
+#### BookAuthors (Many-to-Many)
+Links books to authors (books can have multiple authors).
+- **Composite Primary Key**: (`book_id`, `author_id`)
+- **Foreign Keys**: Books, Authors
 
-**Transactions & Analytics**
-- Multi-item cart processing
-- Status-driven order workflow
-- Payment method tracking
-- Shipment & delivery monitoring
+#### BookCategories (Many-to-Many)
+Links books to categories (books can belong to multiple categories).
+- **Composite Primary Key**: (`book_id`, `category_id`)
+- **Foreign Keys**: Books, Categories
 
-</td>
-</tr>
-<tr>
-<td>
+### Transaction Tables
 
-**Social & Activity**
-- 5-star rating system
-- Book & seller reviews
-- JSON-based user activity logs
-- Search & viewing history
+#### Listings
+Individual book listings from sellers.
+- **Primary Key**: `listing_id` (INT IDENTITY)
+- **Foreign Keys**: `book_id`, `seller_id`, `condition_id`
+- **Key Fields**: `price`, `quantity`, `status`, `created_at`, `updated_at`
+- **Status Values**: 'PendingApproval', 'Active', 'SoldOut', 'Cancelled'
+- **Business Rules**: Price > 0, Quantity ≥ 0
 
-</td>
-<td>
+#### Orders
+Customer purchase orders.
+- **Primary Key**: `order_id` (INT IDENTITY)
+- **Foreign Keys**: `buyer_id` (Users), `shipping_address_id` (Addresses)
+- **Status Values**: 'Pending', 'Paid', 'Shipped', 'Completed', 'Cancelled'
+- **Key Fields**: `order_date`, `total_amount`
 
-**Automation**
-- Auto-inventory updates (triggers)
-- Stored procedures for operations
-- Pre-built analytical views
-- XML import/export support
+#### OrderItems (Many-to-Many)
+Line items within orders linking to specific listings.
+- **Composite Primary Key**: (`order_id`, `listing_id`)
+- **Foreign Keys**: Orders, Listings, Users (seller)
+- **Key Fields**: `quantity`, `unit_price`
+- **Triggers**: Automatically reduces listing quantity on insert
 
-</td>
-</tr>
-</table>
+#### Payments
+Payment records for orders.
+- **Primary Key**: `payment_id` (INT IDENTITY)
+- **Foreign Key**: `order_id`
+- **Status Values**: 'Pending', 'Success', 'Failed'
+- **Key Fields**: `payment_method`, `payment_date`, `amount`
 
----
+#### Shipments
+Shipping information for orders.
+- **Primary Key**: `shipment_id` (INT IDENTITY)
+- **Foreign Key**: `order_id`
+- **Key Fields**: `shipped_date`, `carrier`, `tracking_number`, `delivery_date`
 
-## 🏗️ Database Architecture
+### Review Tables
 
-### Entity Relationship Diagram
-![EER Diagram](https://github.com/user-attachments/assets/8e5fc16b-62e5-4a50-99bd-ba0e6b84f2d8)
+#### BookReviews
+Customer reviews and ratings for books.
+- **Primary Key**: `review_id` (INT IDENTITY)
+- **Foreign Keys**: `book_id`, `reviewer_id` (Users)
+- **Rating**: 1-5 scale
+- **Key Fields**: `rating`, `comment`, `created_at`
 
-### Relational Schema
-![Relational Schema](https://github.com/user-attachments/assets/b20f98a9-fa04-4a1a-8f5f-c28367378ab1)
+#### SellerReviews
+Customer reviews and ratings for sellers.
+- **Primary Key**: `review_id` (INT IDENTITY)
+- **Foreign Keys**: `seller_id` (Users), `reviewer_id` (Users)
+- **Rating**: 1-5 scale
+- **Key Fields**: `rating`, `comment`, `created_at`
 
-### Schema Summary
+### Optional Table
 
-| Entity | Type | Key Relationships |
-|--------|------|-------------------|
-| **Users** | Core | → Addresses (1:M), Listings (1:M), Orders (1:M) |
-| **Books** | Core | ↔ Authors (M:N), Categories (M:N) |
-| **Listings** | Core | → Books (M:1), Conditions (M:1), OrderItems (1:M) |
-| **Orders** | Core | → OrderItems (1:M), Payment (1:1), Shipment (1:1) |
-| **Reviews** | Supplementary | → Books/Sellers (M:1) |
-| **UserActivity** | NoSQL | Stores JSON for flexible querying |
+#### UserActivity (JSON Storage)
+Stores user activity data in JSON format.
+- **Primary Key**: `activity_id` (INT IDENTITY)
+- **Foreign Key**: `user_id`
+- **JSON Fields**: `last_login`, `recently_viewed`, `search_history`
 
-**Total Tables:** 14 | **Bridge Tables:** 2 (BookAuthors, BookCategories)
+## Database Objects
 
----
+### Views
 
-## 🔐 Normalization & Dependencies
-
-### Normalization Level: **3NF**
-
-| Form | Implementation | Example |
-|------|----------------|---------|
-| **1NF** | Atomic values, no repeating groups | Multi-author via `BookAuthors` bridge table |
-| **2NF** | No partial dependencies | `OrderItems(order_id, listing_id)` → all attrs depend on both keys |
-| **3NF** | No transitive dependencies | Price in `Listings` (not `Books`) - depends on seller & condition |
-
-### Key Functional Dependencies
-
+#### vw_ActiveListings
+Shows all active listings with book and seller information.
 ```sql
--- Primary Determinants
-user_id → username, email, password_hash, role
-book_id → title, isbn, publication_year, language
-listing_id → book_id, seller_id, condition_id, price, quantity, status
-order_id → buyer_id, order_date, status, shipping_address_id, total_amount
-
--- Composite Keys
-(order_id, listing_id) → seller_id, quantity, unit_price
-(book_id, author_id) → [bridge table, no additional attributes]
-
--- 1:1 Relationships
-order_id ↔ payment_id
-order_id ↔ shipment_id
+Columns: listing_id, title, isbn, seller_username, price, quantity, created_at
+Filter: status = 'Active'
 ```
 
----
-
-## ⚙️ Quick Start
-
-### Prerequisites
-- SQL Server 2016+ | SSMS/Azure Data Studio | 100MB disk space
-
-### Installation
-
+#### vw_SalesBySeller
+Aggregates sales performance by seller.
 ```sql
--- 1. Create database
-:r "DATABASE SecondHandBookstore.sql"
-
--- 2. Build schema
-:r "Core Tables.sql"
-:r "Indexes for Performance.sql"
-
--- 3. Load data (choose one)
-:r "DATA1.sql"  -- 3,300+ records (recommended)
-:r "DATA.sql"   -- 250 records (testing)
-
--- 4. Add business logic
-:r "Stored Procedure Add Listing.sql"
-:r "Stored Procedure Approve Listing.sql"
-:r "Stored Procedure Create Order.sql"
-:r "Trigger Reduce Stock on OrderItems Insert.sql"
-:r "Example Views.sql"
+Columns: seller_id, seller_username, total_sales_amount, orders_count
+Filter: Paid/Shipped/Completed orders only
 ```
 
-### Verify Installation
-
+#### vw_BookRatings
+Shows average ratings and review counts for books.
 ```sql
--- Check tables
-SELECT name FROM sys.tables ORDER BY name;
-
--- Verify data (DATA1.sql expected counts)
-SELECT 
-    t.name AS [Table],
-    SUM(p.rows) AS [Rows]
-FROM sys.tables t
-JOIN sys.partitions p ON t.object_id = p.object_id
-WHERE p.index_id IN (0,1)
-GROUP BY t.name
-ORDER BY [Rows] DESC;
--- Expected: OrderItems(900), Listings(400), Orders(300), Books(120)...
-```
-
----
-
-## 🔍 Usage Examples
-
-### Common Queries
-
-```sql
--- Search active listings
-SELECT * FROM vw_ActiveListings 
-WHERE title LIKE '%Harry Potter%' 
-ORDER BY price;
-
--- Top sellers
-SELECT TOP 5 * FROM vw_SalesBySeller 
-ORDER BY total_sales_amount DESC;
-
--- User purchase history
-SELECT o.order_id, b.title, oi.quantity, oi.unit_price
-FROM Orders o
-JOIN OrderItems oi ON o.order_id = oi.order_id
-JOIN Listings l ON oi.listing_id = l.listing_id
-JOIN Books b ON l.book_id = b.book_id
-WHERE o.buyer_id = @UserId
-ORDER BY o.order_date DESC;
-
--- Parse JSON activity
-SELECT 
-    username,
-    JSON_VALUE(json_data, '$.last_login') AS last_login,
-    JSON_QUERY(json_data, '$.recently_viewed') AS recent_books
-FROM UserActivity ua
-JOIN Users u ON ua.user_id = u.user_id;
+Columns: book_id, title, avg_rating, review_count
 ```
 
 ### Stored Procedures
 
+#### sp_AddListing
+Creates a new book listing in 'PendingApproval' status.
+**Parameters**: `@book_id`, `@seller_id`, `@condition_id`, `@price`, `@quantity`
+
+#### sp_ApproveListing
+Approves a pending listing, changing status to 'Active'.
+**Parameters**: `@listing_id`
+
+#### sp_CreateOrder
+Creates a new order with transaction handling.
+**Parameters**: `@buyer_id`, `@shipping_address_id`, `@total_amount`
+**Output**: `@new_order_id`
+
+### Triggers
+
+#### trg_OrderItems_AfterInsert
+Automatically manages listing inventory after order items are inserted.
+- Reduces listing quantity by ordered amount
+- Sets status to 'SoldOut' when quantity reaches 0
+
+### Indexes
+
+Performance optimization indexes on frequently queried fields:
+- `IX_Books_Title` - Search books by title
+- `IX_Books_ISBN` - Lookup books by ISBN
+- `IX_Listings_Book_Status` - Filter listings by book and status
+- `IX_Orders_Buyer_Date` - User order history
+- `IX_OrderItems_Seller` - Seller sales queries
+- `IX_BookReviews_Book` - Book review aggregation
+- `IX_SellerReviews_Seller` - Seller rating aggregation
+
+## Data Files
+
+### DATA.sql (Small Dataset)
+Seed data with ~200+ total rows across all tables:
+- 20 users (18 customers, 2 admins)
+- 20 addresses
+- 10 authors
+- 8 categories
+- 25 books
+- 45 listings
+- 30 orders
+- 60 order items
+- 40 book reviews
+- 20 seller reviews
+
+### DATA1.sql (Large Dataset)
+Comprehensive seed data with 3000+ total rows:
+- 60 users (50 customers, 10 admins)
+- 80 addresses
+- 20 authors
+- 10 categories
+- 120 books
+- 400 listings
+- 300 orders
+- 900 order items
+- 400 book reviews
+- 200 seller reviews
+- 50 user activity records (JSON)
+
+**Note**: DATA1.sql includes safety features:
+- Clears existing data in FK-safe order
+- Reseeds identity columns
+- Disables/enables OrderItems trigger during seeding
+
+## Common Queries
+
+### Search Active Listings
 ```sql
--- Add listing
-EXEC sp_AddListing 
-    @book_id = 10, @seller_id = 5, @condition_id = 2,
-    @price = 12.99, @quantity = 3;
-
--- Create order with transaction
-DECLARE @OrderId INT;
-EXEC sp_CreateOrder 
-    @buyer_id = 8, @shipping_address_id = 15,
-    @total_amount = 45.99, @new_order_id = @OrderId OUTPUT;
+SELECT * FROM vw_ActiveListings WHERE title LIKE '%search term%';
 ```
 
----
-
-## 📂 Project Structure
-
-```
-secondhand-bookstore-db/
-├── DATABASE SecondHandBookstore.sql    # DB creation
-├── Core Tables.sql                     # Schema definition
-├── DATA.sql / DATA1.sql                # Sample data (250 / 3,300 rows)
-├── Indexes for Performance.sql         # Query optimization
-├── Stored Procedure *.sql              # Business logic (3 files)
-├── Trigger *.sql                       # Auto-inventory management
-├── Example Views.sql                   # Analytical views
-└── Sample Queries/                     # Usage examples (7 files)
-    ├── Search Active Listings By Title.sql
-    ├── Top 5 Best-Selling Books.sql
-    ├── Sales History *.sql
-    └── Export/Import XML.sql
+### Get Sales History for Seller
+```sql
+-- Uses @SellerId parameter
+-- Returns: order_id, order_date, title, quantity, unit_price, line_total
+-- Filters: Paid/Shipped/Completed orders
 ```
 
----
+### Get Sales History for Buyer
+```sql
+-- Uses @BuyerId parameter
+-- Returns: order_id, order_date, order_total
+-- Aggregates order items by order
+```
 
-## 🚀 Roadmap
+### Top 5 Best-Selling Books
+```sql
+-- Returns: book_id, title, total_copies_sold, total_revenue
+-- Filters: Paid/Shipped/Completed orders
+-- Sorted by copies sold descending
+```
 
-**Phase 1 - Completed ✓**
-- [x] Full 3NF schema with 14 tables
-- [x] JSON integration for user activity
-- [x] Triggers & stored procedures
-- [x] Sample data (3,300+ records)
+## XML Operations
 
-**Phase 2 - Planned**
-- [ ] Wishlist & shopping cart
-- [ ] Email notification system
-- [ ] Advanced search (price/rating filters)
-- [ ] Seller analytics dashboard
+### Export Orders to XML
+Exports orders with nested order items in hierarchical XML format.
+**Structure**: `<Orders><Order><Items><Item/></Item></Items></Order></Orders>`
 
-**Phase 3 - Future**
-- [ ] RESTful API layer
-- [ ] Full-text search implementation
-- [ ] Table partitioning (Orders by year)
-- [ ] Recommendation engine
+### Import Books from XML
+Parses XML input to insert new books into the database.
+**Format**: Expects XML with Book elements containing Title, ISBN, etc.
 
----
+## Setup Instructions
 
-## 👤 Project Information
+1. **Create Database**
+   ```sql
+   CREATE DATABASE SecondHandBookstore;
+   USE SecondHandBookstore;
+   ```
 
-**Author:** [Your Name]  
-**Course:** CSE5041 - Database Design & Development  
-**Institution:** [Your University]  
-**Semester:** [Fall/Spring Year]
+2. **Create Schema**: Run `Core Tables.sql`
 
-**Contact:** [your.email@example.com] | [GitHub](https://github.com/yourusername) | [LinkedIn](https://linkedin.com/in/yourprofile)
+3. **Create Database Objects**: Run stored procedures, views, triggers, and indexes
 
----
+4. **Seed Data**: Run either `DATA.sql` (small) or `DATA1.sql` (large)
 
-## 📄 License
+## Business Rules Summary
 
-MIT License - see [LICENSE](LICENSE) file for details.
+- All prices and amounts must be positive
+- Listings can have zero quantity (marked as SoldOut)
+- Orders track buyer and multiple sellers (marketplace model)
+- Ratings are constrained to 1-5 scale
+- Listings require approval before becoming active
+- Order items automatically reduce listing inventory via trigger
+- Users can have multiple addresses (shipping/billing)
+- Books support multiple authors and categories
+- Categories support hierarchical structure
 
----
+## Key Relationships
 
-## 📚 Resources
-
-**Documentation:** [SQL Server Docs](https://docs.microsoft.com/en-us/sql/) | [Normalization Guide](https://www.studytonight.com/dbms/database-normalization.php)  
-**Issues:** [Report bugs](https://github.com/yourusername/secondhand-bookstore-db/issues)  
-**Contributions:** PRs welcome! See [CONTRIBUTING.md](CONTRIBUTING.md)
-
----
-
-<p align="center">
-  <strong>⭐ Star this repo if you find it useful!</strong><br/>
-  <sub>Built with ❤️ for database enthusiasts</sub>
-</p>
+```
+Users (1) ─── (M) Addresses
+Users (1) ─── (M) Listings (as seller)
+Users (1) ─── (M) Orders (as buyer)
+Books (M) ─── (M) Authors
+Books (M) ─── (M) Categories
+Books (1) ─── (M) Listings
+Listings (1) ─── (M) OrderItems
+Orders (1) ─── (M) OrderItems
+Orders (1) ─── (1) Payment
+Orders (1) ─── (1) Shipment
+```
