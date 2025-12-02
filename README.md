@@ -29,18 +29,19 @@
 
 # 📘 About the Project
 
-The **Second-Hand Bookstore Database Management System (SHB-DBMS)** is a complete relational database designed to support an online marketplace for buying, selling, and trading used books.  
-It includes:
+The **Second-Hand Bookstore Database Management System (SHB-DBMS)** is a robust and fully normalized relational database designed for online trading of used books.  
+It supports:
 
-- User account management  
-- Book inventory and metadata  
-- Listings of used book copies  
-- Order processing  
-- Payments and shipments  
-- Ratings and reviews  
-- User activity tracking using JSON  
+- User registration, authentication & roles  
+- Book metadata management  
+- Seller-created book listings  
+- Order processing & multi-item carts  
+- Payment tracking  
+- Shipment tracking  
+- Book & seller reviews  
+- JSON-based user activity logs  
 
-This project was developed as part of the **CSE5041: Database Design & Development** course.
+Developed for the course **CSE5041: Database Design & Development**, this project demonstrates full lifecycle database design and implementation using **SQL Server**.
 
 ---
 
@@ -48,55 +49,67 @@ This project was developed as part of the **CSE5041: Database Design & Developme
 
 ### 👤 User Management
 - Customer & Admin roles  
-- Multiple addresses per user  
-- User authentication information  
+- Multiple addresses (shipping/billing)  
+- Secure hashed passwords  
 
 ### 📚 Books & Categories
-- Store metadata for all books  
-- Multi-author support  
-- Hierarchical categories  
-- ISBN-based unique identification  
+- Full metadata for each book  
+- Multi-author support (M:N)  
+- Multi-category support (M:N)  
+- ISBN uniqueness checking  
 
 ### 🛒 Listings (Used Books)
-- Seller-created listings  
-- Conditions (Like New, Very Good, Good, Acceptable)  
-- Pricing and quantity  
-- Status control (Active, PendingApproval, Cancelled, SoldOut)  
+- Book condition (Like New, Very Good, Good, Acceptable)  
+- Pricing, quantity & status  
+- Seller identity tracking  
+- Approval workflow  
 
 ### 📦 Orders & Transactions
-- Multi-item orders  
-- Order status workflow  
-- Payments with transaction logs  
-- Shipment & tracking details  
+- Multi-item orders with quantities  
+- Order life cycle: Pending → Paid → Shipped → Completed  
+- Total cost calculation  
+
+### 💳 Payments
+- One payment per order  
+- Methods: Card, PayPal, Bank Transfer  
+- Payment status tracking  
+
+### 🚚 Shipments
+- Carriers, tracking numbers  
+- Shipped & delivered dates  
 
 ### ⭐ Reviews System
-- Book reviews (rating + comments)  
-- Seller reviews  
+- Book reviews (ratings & comments)  
+- Seller reviews (ratings)  
+- Timestamped entries  
 
-### 📊 User Activity (JSON)
+### 📊 User Activity Logs (JSON)
+- Recent searches  
 - Recently viewed books  
-- Search history  
-- Stored in JSON format  
+- Stored in JSON format per user  
 
 ---
 
 # 🏗 Database Architecture
 
-This project follows the complete lifecycle:
+This project follows a complete database engineering workflow:
 
-1. Requirements Analysis  
-2. Enhanced ER (EER) Modeling  
-3. Relational Schema Mapping  
-4. Normalization up to 3rd Normal Form  
-5. SQL Server Implementation  
-6. Indexing, Constraints, and Triggers  
-7. JSON/NoSQL Integration  
-8. Data Seeding (~3,300+ rows automatically generated)  
+1. **Requirement Collection & Analysis**  
+2. **Enhanced ER (EER) Modeling**  
+3. **Relational Mapping (PK/FK design)**  
+4. **Normalization (UNF → 1NF → 2NF → 3NF)**  
+5. **SQL Schema Implementation**  
+6. **Constraints, Indexes, Keys, Views, Procedures, Triggers**  
+7. **Data Seeding (~3,300+ records)**  
+8. **JSON/NoSQL Integration**  
 
 ---
 
 # 🖼 Enhanced ER Diagram
 
-> 📌 Placeholder — insert your EER Diagram image here  
-(Upload your diagram as: `<img width="1536" height="1024" alt="Image" src="https://github.com/user-attachments/assets/8e5fc16b-62e5-4a50-99bd-ba0e6b84f2d8" />`)
+> 📌 **Insert your Enhanced ER Diagram Image here**  
+Upload your image to GitHub and replace the link below:
 
+```html
+<img width="1536" height="1024" alt="EER Diagram" 
+src="https://github.com/user-attachments/assets/8e5fc16b-62e5-4a50-99bd-ba0e6b84f2d8" />
