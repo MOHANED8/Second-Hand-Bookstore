@@ -98,5 +98,5 @@ This project follows the complete lifecycle:
 # 🖼 Enhanced ER Diagram
 
 > 📌 Placeholder — insert your EER Diagram image here  
-(Upload your diagram as: `docs/eer-diagram.png`)
+(Upload your diagram as: `<img width="1536" height="1024" alt="Image" src="https://github.com/user-attachments/assets/8e5fc16b-62e5-4a50-99bd-ba0e6b84f2d8" />`)
 
